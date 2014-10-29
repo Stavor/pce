@@ -2,21 +2,33 @@
 #include <omp.h>
 
 static int threads_cnt = 16;
-static __int64 A[10000005];
-static int _10M = 10000000;
 
-__int64 static_array_sum() {
-	__int64 sum = 0;
-#pragma omp parallel for num_threads (threads_cnt) reduction(+:sum)
-	for (intptr_t i = 0; i < _10M; i++)
-		sum += A[i]; 
-	return sum;
+static double the_func(double x)
+{
+	return (x - 3) * (x - 1) * (x + 1) / 5;
+}
+
+static double rectangel_method(double start, double dx, int cnt) {
+	double sum = 0;
+	double curX;
+#pragma omp parallel for num_threads (threads_cnt) reduction (+:sum) private (curX)
+	for (intptr_t i = 0; i < cnt; ++i) {
+		curX = start + i * dx;
+		sum += the_func(curX);
+	}
+	return sum * dx;
 }
 
 int main() {
-	for (intptr_t i = 0; i < _10M; i++)
-		A[i] = i;
-	__int64 res = static_array_sum();
-	printf("%I64d\n", res); //correct res is 49999995000000
+	double start = -3;
+	double end = 4;
+	int prec = 100000000;
+	double dx = (end - start) / prec;
+
+	double st = omp_get_wtime();
+	double res = rectangel_method(start, dx, prec + 1);
+	double fn = omp_get_wtime();
+	
+	printf("%.9lf / time: %.6lf\n", res, fn - st);
 	return 0;
 }
