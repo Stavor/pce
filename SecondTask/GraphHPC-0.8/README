@@ -1,0 +1,34 @@
+GraphHPC-2014 contest & training
+================================
+
+Authors
+-------
+Alexander Semenov   
+Elizaveta Golovina
+Timur Ismagilov
+
+
+Description of executables:
+---------------------------
+gen_RMAT_serial         -- RMAT graph serial generation 
+graphs_reference        -- reference serial implementation of BFS and SSSP (Dijkstra) algorithms
+compare                 -- utility for comparing two vectors with double numbers stored in files (for SSSP validation)
+compare_bfs             -- utility for BFS levels comparing (for BFS validation)
+gen_RMAT_mpi            -- parallel MPI RMAT graph generation
+
+
+To implement your own algorithm, write program to new file and then modify Makefile   
+
+To build implementations, type `make'
+
+Change Log:
+---------------------------
+Date        Version     Comments
+17.03.2014  0.8         BFS serial reference implementation is added
+28.02.2014  0.7         Vertices permutations are scalable now
+24.02.2014  0.6         MPI generator bug is fixed: permutations are correct now
+20.02.2014  0.5         Bugs are fixed in MPI generator, MPI validation is improved
+21.01.2014  0.4         1) Serial calculation of traversed edges number is modified. 2) Bug in roots generation in MPI version is fixed 3) Calculation of traversed edges number in MPI version
+15.01.2014  0.3         Parallel MPI graph generation
+14.01.2014  0.2         Full serial environment + reference implementation
+27.12.2013  0.1         Initial release
